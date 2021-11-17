@@ -44,7 +44,7 @@ Container   Container   Container
 - 가상머신보다 효율적이다.
   - 도커는 HostOs위에서 자원만 공유하기 때문에 상대적으로 매우 가벼우나, 가상머신은 HostOs 위에 각각의 Guest Os를 설치하기 때문에 OS를 각각 포함하고 있어서 매우 무겁고, 각각마다 자원이 할당되어서 도커보다 더 비효율적이다.
 
-![DockerContainer_VM_Architecture](/Users/taewoo/Documents/Docker_study/DockerContainer_VM_Architecture.png)
+![DockerContainer_VM_Architecture](https://github.com/twkim5235/Docker/blob/main/picture/DockerContainer_VM_Architecture.png)
 
 
 
