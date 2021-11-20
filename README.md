@@ -197,3 +197,6 @@ docker run -d -p 3306:3306 \
 #### exec
 
 **run은 실행명령어라고 하면, exec는 컨테이너에 접속하게 해주는 명령어 이다.**
+~~~ 
+docker exec <CONTAINER_ID> <COMMAND>
+~~~
