@@ -136,3 +136,64 @@ Container   Container   Container
 - 클러스터 환경에서 컨테이너는 어느 서버에 생성될지 알 수 없고 다른 서버로 이동할 수도 있다.
 - 따라서 컨테이너와 통신을 하기 위해서 어느 서버에서 실행중인지 알아야 하고 컨테이너가 생성되고 중지될 때 어딘가에 IP와 Port같은 정보를 업데이트해줘야 한다.
 - 키 - value 스토리지에 정보를 저장할 수도 있고 내부 DNS 서버를 이용한다.
+
+### 도커 기본 명령어
+
+#### run 
+
+**컨테이너 실행 명령어** 
+
+~~~dockerfile
+docker run [OPTIONS] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]
+~~~
+
+
+
+ [OPTIONS] 주요 예약어
+
+|   이름    |                             기능                             |
+| :-------: | :----------------------------------------------------------: |
+|    -d     |                detached mode(백그라운드 모드)                |
+|    -p     | 호스트와 컨테이너의 포스트를 연결 <br>ex) docker run -p 8080(호스트 포트):80(컨테이너 포트) <br>호스트의 8080포트로 접속을 시도하면 컨테이너의 80포트로 접속된다. |
+|    -v     |             호스트와 컨테이너의 디렉토리를 연결              |
+|    -e     |             컨테이너 내에서 사용할 환경변수 설정             |
+|  --name   |                      컨테이너 이름 설정                      |
+|   --rm    |              프로세스 종료시 컨테이너 자동 제거              |
+|    -it    |    -i와 -t를 동시에 사용한 것으로 터미널 입력을 위한 옵션    |
+| --network |                        네트워크 연결                         |
+
+
+
+#### M1환경에서 docker로 Mysql을 실행할때 주의점
+
+~~~
+docker run -d -p 3306:3306 \
+  -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+  --name mysql \
+  mysql
+~~~
+
+상단과 같이 명령어를 입력하면
+
+docker: no matching manifest for linux/arm64/v8 in the manifest list entries
+
+같은 에러가 발생한다.
+
+
+
+그러므로
+
+~~~
+docker run -d -p 3306:3306 \
+  -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+  --name mysql \
+  --platform linux/amd64  mysql:5.7
+~~~
+
+  --platform linux/amd64 을 넣어서 실행해 주면 문제없이 실행된다.
+
+
+
+#### exec
+
+**run은 실행명령어라고 하면, exec는 컨테이너에 접속하게 해주는 명령어 이다.**
