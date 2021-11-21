@@ -314,7 +314,7 @@ docker network connect app-network mysql
 ex)
 
 ~~~
-docker run -d 0p 8080:80 \
+docker run -d -p 8080:80 \
  --network=app-network \ 연결할 네트워크
  --WORDPRESS_DB_HOST=mysql\ wordpress에 연결할 DB - (네트워크에 속해있는 mysql을 연동함)
  ...
