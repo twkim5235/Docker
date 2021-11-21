@@ -200,3 +200,122 @@ docker run -d -p 3306:3306 \
 ~~~ 
 docker exec <CONTAINER_ID> <COMMAND>
 ~~~
+
+#### ps
+
+**실행중인 컨테이너 목록을 확인 하는 명령어이다.**
+
+~~~dockerfile
+docker ps
+~~~
+
+**중지된 모든 컨테이너까지 다 볼  수 있는 명령어이다.**
+-a 추가
+
+~~~
+docker ps -a
+~~~
+
+
+
+#### stop
+
+**실행중인 컨테이너를 중지하는 명령어이다.**
+
+**실해중인 컨테이너를 하나 또는 여러개(띄어쓰기)를 중지할 수 있다.**
+
+~~~dockerfile
+docker stop [OPTIONS] CONTAINER(단일) CONTAINER CONTAINER...(띄워쓰기로 여러개)
+~~~
+
+ID나 컨테이너 이름으로 중지를 한다.
+
+
+
+#### logs
+
+**컨테이너의 log를 확인할 수 있는 명령어이다.**
+
+~~~
+docker logs [OPTIONS] CONTAINER
+~~~
+
+**-f** 옵션을 사용하면 실시간으로 log를 확인할 수 있다.
+
+
+
+#### images
+
+**도커가 다운로드한 이미지 목록을 확인할 수 있는 명령어이다.**
+
+~~~
+docker images [OPTIONS] [REPOSITORY[:TAG]]
+~~~
+
+
+
+#### pull
+
+**도커의 이미지를 다운로드하는 명령어이다.**
+
+~~~
+docker pull [OPTIONS] NAME[:TAG|@DIGEST]
+~~~
+
+
+
+#### rmi
+
+**도커의 이미지를 삭제하는 명령어이다.**
+
+~~~
+docker rmi [OPTIONS] IMAGE(단일) IMAGE IMAGE...(띄워쓰기로 여러개)
+~~~
+
+
+
+#### network create 
+
+**도커 컨테이너끼리 이름으로 통신할 수 있는 가상 네트워크를 생성하는 명령어이다.**
+
+~~~
+docker network create [OPTIONS] NETWORK
+~~~
+
+ex)
+
+~~~
+docker network create app-network
+~~~
+
+
+
+#### network connect
+
+**기존에 생성된 컨테이너에 네트워크를 추가한다.**
+
+~~~
+docker network connect [OPTIONS] NETWORK CONTAINER
+~~~
+
+ex)
+
+~~~
+docker network connect app-network mysql
+~~~
+
+
+
+#### network option 
+
+**컨테이너를 연결할 network를 옵션에 추가한다.**
+
+ex)
+
+~~~
+docker run -d 0p 8080:80 \
+ --network=app-network \ 연결할 네트워크
+ --WORDPRESS_DB_HOST=mysql\ wordpress에 연결할 DB - (네트워크에 속해있는 mysql을 연동함)
+ ...
+ wordpress
+~~~
