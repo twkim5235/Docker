@@ -381,7 +381,7 @@ services:
 
 이미지는 읽기 영역과 쓰기 영역으로 나눌 수 있다. 아래 사진을 보자
 
-![image-20211122231123685](/Users/taewoo/Library/Application Support/typora-user-images/image-20211122231123685.png)
+![image-20211122231123685](https://github.com/twkim5235/Docker/blob/main/picture/docker_custom_image_commit.png)
 
 해당사진에서 읽기 영역과 쓰기영역을 나누자면 
 
