@@ -332,3 +332,134 @@ docker run ...
 -v /my/directory:/container/directory
 ~~~
 
+### Docker compose
+
+**기존의 cmd창에서 복잡하게 입력했던 docker를 yml파일로 구성하여 기존보다 편하게 실행해주는 프로그램**
+
+~~~yaml
+docker-compose.yml
+version: '3.3'
+services:
+  db:
+    image: mysql:5.7 #이미지
+    volumes: #디렉토리 -v와 동일
+      - ./mysql:/var/lib/mysql
+    restart: always #도커가 종료됬을 시 자동으로 재시작
+    environment: #환경변수 설정 -e와 동일
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    volumes:
+      - ./wp:/var/www/html
+    ports:
+      - "8080:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: wordpress
+~~~
+
+
+
+### Docker Image
+
+이미지는 프로세스가 실행되는 파일들의 집합(환경)이다.
+
+프로세스는 환경(파일)을 변경할 수 있다.
+
+환경(파일)을 저장해서 새로운 이미지를 만들 수 있다.
+
+
+
+이미지는 읽기 영역과 쓰기 영역으로 나눌 수 있다. 아래 사진을 보자
+
+![image-20211122231123685](/Users/taewoo/Library/Application Support/typora-user-images/image-20211122231123685.png)
+
+해당사진에서 읽기 영역과 쓰기영역을 나누자면 
+
+Base Image를 ubuntu라고 생각해보자, ubuntu라는 이미지는 이미 **생성된 이미지**이기때문에 **읽기밖에 불가능**하고 우리가 내부적으로 무언가를 **수정할 수 없다**. 
+
+하지만 그 위에 다른 프로그램을 설치할 수 있다. 그림과 같이 git 또는 ubuntu 안에 mysql을 설치하는등 **기존에 것은 건드리지 않고 더 추가를 할 수 있다.**
+
+그리고 custom하여 더추가한 뒤 **commit을 하면 customizing된 이미지가 생성된다.**
+
+ 따지고 보면 SOLID의 OOP라고 생각하면될것 같다 즉 **확장은 열려있으나 변경은 닫힌 것**이라고 나는 이해가 된다. 
+
+
+
+**commit으로 도커이미지를 생성하는 법**
+
+~~~
+docker commit CONTAINER(이미지를 따고싶은 컨테이너) IMAGE(이미지 이름):TAG(버전)
+~~~
+
+
+
+**build로 도커이미지를 생성하는 법**
+
+~~~
+docker build -t NAMESPACE(이름공간)/IMAGE(이미지 이름):TAG(버전) .(빌드 컨텍스트)
+~~~
+
+
+
+**도커이미지를 만들때 유의사항**
+
+- 한번에 성공하는 빌드는 거의 없다
+- 파란불(빌드 성공)이 뜰 때까지 많은 빨간불(빌드 실패)를 경험한다.
+- **일단 빌드 성공이 되더라도 최적화된 이미지 생성을 위해 리팩토링을 계속해서 진행한다.**
+
+
+
+#### Dockerfile
+
+도커 이미지를 만들기 위해서 필요한 파일
+
+도커이미지를 만들 때 히스토리를 볼 수 있으니, 유지보수에 용이하다.
+
+| 명령어     | 설명                                                 |
+| ---------- | ---------------------------------------------------- |
+| FROM       | 기본이미지                                           |
+| RUN        | 쉘 명령어 실행                                       |
+| CMD        | 컨테이너 기본 실행 명령어 (Entrypoint의 인자로 사용) |
+| EXPOSE     | 오픈되는 포트 정보                                   |
+| ENV        | 환경변수 설정                                        |
+| ADD        | 파일 또는 디렉토리 추가. URL/ZIP 사용가능            |
+| COPY       | 파일 또는 디렉토리 추가                              |
+| ENTRYPOINT | 컨테이너 기본 실행 명령어                            |
+| VOLUME     | 외부 마운트 포인트 생성                              |
+| USER       | RUN, CMD, ENTRYPOINT를 실행하는 사용자               |
+| WORKDIR    | 작업 디렉토리 설정                                   |
+| ARGS       | 빌드타임 환경변수 설정                               |
+| LABEL      | Key - value 데이터                                   |
+| ONBUILD    | 다른 빌드의 베이스로 사용될 때 사용하는 명령어       |
+
+
+
+#### .dockerignore
+
+.gitignore와 비슷한 역할
+
+**도커 빌드 컨텍스트에서 지정된 패턴의 파일을 무시**
+
+**이미지 빌드 시에 사용하는 파일은 제외시키면 안됨**
+
+ex)
+
+~~~dockerfile
+# base 이미지
+FROM ubuntu:latest 
+
+# 쉘 명령어
+RUN apt-get update
+RUN apt-get install -y git
+~~~
+
