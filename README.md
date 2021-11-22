@@ -320,3 +320,15 @@ docker run -d -p 8080:80 \
  ...
  wordpress
 ~~~
+
+#### volume mount
+
+로컬 디렉토리와 컨테이너의 디렉토리를 연결해주는 명령어이다. 도커를 종료했다가 재실행해도, 데이터가 초기화 되는것을 방지해 줄 수 있다.
+
+ex)
+
+~~~
+docker run ...
+-v /my/directory:/container/directory
+~~~
+
