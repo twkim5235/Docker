@@ -525,7 +525,7 @@ WORKDIR /app
 **컨테이너가 사용하느 포트를 지정해주는 지시어이다.**
 
 ~~~dockerfile
-WORKDIR /path/to/workdir
+EXPOSE PORTNUMBER
 ~~~
 
 EXPOSE 8000
