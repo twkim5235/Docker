@@ -462,3 +462,105 @@ RUN apt-get update
 RUN apt-get install -y git
 ~~~
 
+### Docker image 만들기
+
+#### FROM
+
+**베이지 이미지를 지정해주는 지시어이다.**
+
+~~~dockerfile
+FROM [--platform=<platform>] <image>[:<tag>] [AS <name>]
+~~~
+
+FROM ubuntu:latest
+
+FROM node:12
+
+FROM python:3
+
+
+
+#### COPY
+
+**로컬에 있는 파일을 image에 복사해주는 지시어이다.**
+
+~~~dockerfile
+COPY [--chown=<user>:<group>] <src>... <dest>	
+~~~
+
+COPY index.html /var/www/html
+
+COPY ./app /usr/src/app
+
+
+
+#### RUN
+
+**컨테이너 안에서 명령어를 사용할 때 쓰는 지시어이다.**
+
+~~~dockerfile
+RUN <comand>
+~~~
+
+RUN apt-get update
+
+RUN npm install
+
+
+
+#### WORKDIR
+
+**작업 디렉토리를 변경하는 지시어이다.** 즉 해당 디렉토리로 이동하여, RUN 명령어를 실행한다.
+
+~~~dockerfile
+WORKDIR /path/to/workdir
+~~~
+
+WORKDIR /app
+
+
+
+#### EXPOSE
+
+**컨테이너가 사용하느 포트를 지정해주는 지시어이다.**
+
+~~~dockerfile
+WORKDIR /path/to/workdir
+~~~
+
+EXPOSE 8000
+
+
+
+#### CMD
+
+**컨테이너 생성 시 실행할 명령어를 지정해주는 지시어이다.**
+
+~~~dockerfile
+CMD ["executable", "param1", "param2"]
+CMD command param1 param2
+~~~
+
+CMD ["node", "app.js"]
+
+CMD node app.js
+
+
+
+### Docker hub 이미지 관리
+
+docker login
+
+docker push {ID}/example
+
+docker pull {ID}/example
+
+
+
+#### **Docker 배포**
+
+~~~
+docker run -d -p 3000:3000 admin/app
+~~~
+
+- 컨테이너 실행 = 이미지 pull + 컨테이너 start
