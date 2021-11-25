@@ -20,7 +20,7 @@ Add user -> System Env -> Firewall -> Network -> Dependencies -> Python
 Container   Container   Container 
  --------    --------    --------
 | MYSQL  |  |JENKINS |  |LINUX   |
-|				 |  |        |  |				 |
+|				    |  |        |  |				    |
  --------    --------	   --------   
 ~~~
 
